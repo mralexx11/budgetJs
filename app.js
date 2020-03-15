@@ -9,7 +9,7 @@ let UIContriller = (function () {
         inputValue: '.add__value',
         inputBtn: '.add__btn',
 
-    }
+    };
     return {
         getInput: function () {
             return {
@@ -23,18 +23,32 @@ let UIContriller = (function () {
 })();
 
 let controller = (function (budgetCtrl, UICtrl) {
-    let DOM = UICtrl.getDOMstrings();
+
+    let setupEventListners = () => {
+        let DOM = UICtrl.getDOMstrings();
+        document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
+        document.addEventListener('keypress', function (event) {
+            //console.log(event);
+            if (event.keyCode === 13 || event.which === 13) {
+                //console.log('Enter pressed!', event);
+                ctrlAddItem();
+            }
+        } );
+    };
+
+
     let ctrlAddItem = function() {
         let input = UICtrl.getInput();
         console.log(input);
-    }
-    document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
-    document.addEventListener('keypress', function (event) {
-        //console.log(event);
-        if (event.keyCode === 13 || event.which === 13) {
-           // console.log('Enter pressed!', event)
-            ctrlAddItem();
+    };
+
+    return {
+        init: () => {
+            console.log('App is started');
+            setupEventListners();
         }
-    } )
+    }
 
 })(budgetController, UIContriller);
+
+controller.init();

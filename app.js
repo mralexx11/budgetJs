@@ -1,8 +1,8 @@
- let budgetController = (function () {
+ let budgetController = (() => {
 
  })();
 
-let UIContriller = (function () {
+let UIContriller = (() => {
     let DOMstrings = {
         inputType: '.add__type',
         inputDescription: '.add__description',
@@ -11,7 +11,7 @@ let UIContriller = (function () {
 
     };
     return {
-        getInput: function () {
+        getInput: () => {
             return {
                 type: document.querySelector(DOMstrings.inputType).value,
                 description: document.querySelector(DOMstrings.inputDescription).value,
@@ -22,7 +22,7 @@ let UIContriller = (function () {
     }
 })();
 
-let controller = (function (budgetCtrl, UICtrl) {
+let controller = ((budgetCtrl, UICtrl) => {
 
     let setupEventListners = () => {
         let DOM = UICtrl.getDOMstrings();
@@ -37,7 +37,7 @@ let controller = (function (budgetCtrl, UICtrl) {
     };
 
 
-    let ctrlAddItem = function() {
+    let ctrlAddItem = () => {
         let input = UICtrl.getInput();
         console.log(input);
     };

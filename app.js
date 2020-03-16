@@ -1,12 +1,12 @@
  let budgetController = (() => {
 
-     let Expense = (id, description, value) => {
+     let Expense = function (id, description, value) {
          this.id = id;
          this.description = description;
          this.value = value;
      };
 
-     let Income = (id, description, value) => {
+     let Income = function (id, description, value) {
          this.id = id;
          this.description = description;
          this.value = value;
@@ -21,7 +21,20 @@
              exp: 0,
              inc: 0
          }
-     }
+     };
+
+     return {
+         addItem: (type, des, val) => {
+             let newItem, ID;
+
+             data.allItems[type].length > 0 ? ID = data.allItems[type][data.allItems[type].length -1].id + 1 : ID = 0;
+
+             type === 'exp' ? newItem = new Expense(ID, des, val) : newItem = new Income(ID, des, val);
+             data.allItems[type].push(newItem);
+             return newItem;
+         },
+         testing: () => console.log(data)
+     };
  })();
 
 let UIContriller = (() => {
@@ -50,9 +63,7 @@ let controller = ((budgetCtrl, UICtrl) => {
         let DOM = UICtrl.getDOMstrings();
         document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
         document.addEventListener('keypress', function (event) {
-            //console.log(event);
             if (event.keyCode === 13 || event.which === 13) {
-                //console.log('Enter pressed!', event);
                 ctrlAddItem();
             }
         } );
@@ -60,8 +71,8 @@ let controller = ((budgetCtrl, UICtrl) => {
 
 
     let ctrlAddItem = () => {
-        let input = UICtrl.getInput();
-        console.log(input);
+        let input = UICtrl.getInput(),
+            newItem = budgetCtrl.addItem(input.type, input.description, input.value);
     };
 
     return {

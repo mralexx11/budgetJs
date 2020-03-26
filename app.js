@@ -43,6 +43,8 @@ let UIContriller = (() => {
         inputDescription: '.add__description',
         inputValue: '.add__value',
         inputBtn: '.add__btn',
+        incomeContainer: '.income__list',
+        expensesContainer: '.expenses__list'
 
     };
     return {
@@ -53,6 +55,39 @@ let UIContriller = (() => {
                 value: document.querySelector(DOMstrings.inputValue).value
             };
         },
+
+        addListItem: (obj, type) => {
+
+            let html, element;
+
+            if (type === 'inc'){
+                element = DOMstrings.incomeContainer;
+                html = `<div class="item clearfix" id="income-${obj.id}">
+                            <div class="item__description">${obj.description}</div>
+                             <div class="right clearfix">
+                                <div class="item__value">${obj.value}</div>
+                                <div class="item__delete">
+                                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
+                                </div>
+                                </div>
+                        </div>`
+            }  else if (type === 'exp') {
+                element = DOMstrings.expensesContainer;
+                html = `<div class="item clearfix" id="expense-${obj.id}">
+                           <div class="item__description">${obj.description}</div>
+                             <div class="right clearfix">
+                                <div class="item__value">${obj.value}</div>
+                                    <div class="item__percentage">21%</div>
+                                 <div class="item__delete">
+                                     <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
+                                    </div>
+                                </div>
+                            </div>`
+            }
+            document.querySelector(element).insertAdjacentHTML('beforeend', html);
+
+        },
+
         getDOMstrings:  () => DOMstrings
     }
 })();
@@ -73,6 +108,8 @@ let controller = ((budgetCtrl, UICtrl) => {
     let ctrlAddItem = () => {
         let input = UICtrl.getInput(),
             newItem = budgetCtrl.addItem(input.type, input.description, input.value);
+
+        UICtrl.addListItem(newItem, input.type);
     };
 
     return {

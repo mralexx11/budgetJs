@@ -93,7 +93,9 @@ let UIContriller = (() => {
             fieldsArr = Array.prototype.slice.call(fields);
             fieldsArr.forEach((el)=> {
                 el.value = '';
-            })
+            });
+
+            fieldsArr[0].focus();
         },
 
         getDOMstrings:  () => DOMstrings
